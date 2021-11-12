@@ -23,6 +23,7 @@ module.exports = {
     hardhat: {
     },
     hardhat: {
+      gasPrice: 1,
       accounts: [
         {
           privateKey: "0x40ebe1388d76be1ffff7d0e341070590f1106a8c4fef1cbc9c71145ba0563663",
@@ -42,6 +43,10 @@ module.exports = {
         },
         {
           privateKey: "0x0831db1395f4893065acbe86b4220c3c0026a51c0ee3ee08fd86d059c3fe153f",
+          balance: initialBalance
+        },
+        {
+          privateKey: "0x9d0e8a41538da5d55c2e290e6aab55b757cb5b664cabfe9cd93595709c6577b8",
           balance: initialBalance
         },
       ]
