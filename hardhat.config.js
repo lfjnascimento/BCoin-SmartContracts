@@ -1,3 +1,4 @@
+require('dotenv').config();
 require("@nomiclabs/hardhat-waffle");
 
 // This is a sample Hardhat task. To learn how to create your own go to
@@ -20,7 +21,13 @@ const initialBalance = "100000000000000000";
 module.exports = {
   solidity: "0.8.4",
   networks: {
-    hardhat: {
+    ropsten: {
+      chainId: 3,
+      url: process.env.ROPSTEN_URL,
+      accounts:
+      [
+        process.env.ROPSTEN_SIGNER,
+      ]
     },
     hardhat: {
       gasPrice: 1,
