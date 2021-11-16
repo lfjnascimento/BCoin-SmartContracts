@@ -136,6 +136,18 @@ contract BCoinProject {
     require(projects[_ID].status != Status.not_created, "project_not_exists");
     return projects[_ID];
   }
+  
+  function getAllProjectInCreatedStatus()public view returns(Project[] memory){
+      uint qtdProjects = _next_ID;
+      Project[] memory _projects = new Project[](qtdProjects);
+      
+      for(uint i=0; i < qtdProjects; i++)
+         if(projects[i].status == Status.created)
+            _projects[i] = projects[i];
+      
+      
+      return _projects;
+  }
 
   function getContractBalance() public view returns (uint256 ){
     return address(this).balance;
