@@ -2,8 +2,6 @@
 
 pragma solidity ^0.8.0;
 
-import "hardhat/console.sol";
-
 /*
 * O projeto pode estar em um dos seguintes estados:
 * - not_created, o projeto nunca foi criado;
