@@ -33,7 +33,7 @@ module.exports = {
       gasPrice: 1,
       accounts: [
         {
-          privateKey: "0x40ebe1388d76be1ffff7d0e341070590f1106a8c4fef1cbc9c71145ba0563663",
+          privateKey: "5c2fb25c257bf7ae0bdf87d2e30866cc1a6db5ca472a4400d1bb4002cb7fd4fd",
           balance: initialBalance
         },
         {
