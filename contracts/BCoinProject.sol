@@ -25,6 +25,7 @@ struct Project{
   string description;
   uint256 amount;
   uint256 balance;
+  string comment;
   uint8 percent_done;
   Media[] files;
   uint256 proposal_date;
@@ -110,7 +111,7 @@ contract BCoinProject {
     if (_percentage < 100)
       projects[_project_ID].percent_done = _percentage;
     else
-      _finish(_project_ID);     
+      _finish(_project_ID);
   }
   
   /*
@@ -130,6 +131,19 @@ contract BCoinProject {
       file.mime_type = _files_mime_types[i];
       projects[_project_ID].files.push(file);
     }
+  }
+
+  /*
+  * Adiciona um comentario da autoridade do projeto informando a justificativa da nao finalizacao deste.
+  *
+  * Requirements:
+  * - O projeto tem que estar no status in_execution.
+  * - Deve ser executada apenas pela autoridade do projeto.
+  */
+  function addComment(uint256 _project_ID, string memory _comment) onlyProjectAuthority(_project_ID) public {
+    require(projects[_project_ID].status == Status.in_execution, "project_not_in_execution");
+
+    projects[_project_ID].comment = _comment;
   }
 
   /*
