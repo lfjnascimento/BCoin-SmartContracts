@@ -51,6 +51,9 @@ contract BCoinProject {
   // Mapea endereco para Id dos projetos onde o endereco tem papel de autoridade
   mapping(address => uint256[]) authorityOf;
 
+// Mapea endereco para Id dos projetos onde o endereco tem papel de autoridade
+  mapping(address => uint256[]) proponentOf;
+
   modifier onlyProjectAuthority(uint256 _project_ID){
     require(msg.sender == projects[_project_ID].authority, "only_project_authority");
     _;
@@ -82,6 +85,7 @@ contract BCoinProject {
     qdtProjectsInCreatedStatus++;
     
     authorityOf[_authority].push(ID);
+    proponentOf[msg.sender].push(ID);
   }
 
   /*
@@ -210,33 +214,155 @@ contract BCoinProject {
   }
 
   /*
-  * Retorna todos os projetos em que o endereco _executor tem papel de executor
+  * Retorna todos os projetos em execucao onde o endereco _executor tem papel de executor
   */
-  function getExecutorOfProjects(address _executor) public view returns(Project[] memory){
+  function getExecutorProjectsInExecution(address _executor) public view returns(Project[] memory){
     uint qtdProjects = executorOf[_executor].length;
     Project[] memory _projects = new Project[](qtdProjects);
     
+    uint256 qtdProjectsInExecution = 0;
     for(uint256 i=0; i < qtdProjects; i++){
       uint256 projectID = executorOf[_executor][i];
-      _projects[i] = projects[projectID];
+      
+        if (projects[projectID].status == Status.in_execution){
+          _projects[qtdProjectsInExecution] = projects[projectID];
+          qtdProjectsInExecution++;
+        }
     }
     
-    return _projects;
+    Project[] memory _result = new Project[](qtdProjectsInExecution);
+    for(uint256 i=0; i < qtdProjectsInExecution; i++){
+      _result[i] = _projects[i];
+    }
+
+    return  _result;
+  }
+
+
+  /*
+  * Retorna todos os projetos finalizados onde o endereco _executor tem papel de executor
+  */
+  function getExecutorProjectsFinished(address _executor) public view returns(Project[] memory){
+    uint qtdProjects = executorOf[_executor].length;
+    Project[] memory _projects = new Project[](qtdProjects);
+    
+    uint256 qtdProjectsFinished = 0;
+    for(uint256 i=0; i < qtdProjects; i++){
+      uint256 projectID = executorOf[_executor][i];
+      
+        if (projects[projectID].status == Status.finished){
+          _projects[qtdProjectsFinished] = projects[projectID];
+          qtdProjectsFinished++;
+        }
+    }
+    
+    Project[] memory _result = new Project[](qtdProjectsFinished);
+    for(uint256 i=0; i < qtdProjectsFinished; i++){
+      _result[i] = _projects[i];
+    }
+
+    return  _result;
+  }
+  
+  
+  /*
+  * Retorna todos os projetos em execucao onde o endereco _authority tem papel de autoridade
+  */
+  function getAuthorityProjectsInExecution(address _proponent) public view returns(Project[] memory){
+    uint qtdProjects = proponentOf[_proponent].length;
+    Project[] memory _projects = new Project[](qtdProjects);
+     
+    uint256 qtdProjectsInExecution = 0;
+    for(uint256 i=0; i < qtdProjects; i++){
+      uint256 projectID = proponentOf[_proponent][i];
+      
+        if (projects[projectID].status == Status.in_execution){
+          _projects[qtdProjectsInExecution] = projects[projectID];
+          qtdProjectsInExecution++;
+        }
+    }
+    
+    Project[] memory _result = new Project[](qtdProjectsInExecution);
+    for(uint256 i=0; i < qtdProjectsInExecution; i++){
+      _result[i] = _projects[i];
+    }
+
+    return  _result;
+  }
+
+  /*
+  * Retorna todos os projetos finalizados onde o endereco _authority tem papel de autoridade
+  */
+  function getAuthorityProjectsFinished(address _authority) public view returns(Project[] memory){
+    uint qtdProjects = authorityOf[_authority].length;
+    Project[] memory _projects = new Project[](qtdProjects);
+     
+    uint256 qtdProjectsFinished = 0;
+    for(uint256 i=0; i < qtdProjects; i++){
+      uint256 projectID = authorityOf[_authority][i];
+      
+        if (projects[projectID].status == Status.finished){
+          _projects[qtdProjectsFinished] = projects[projectID];
+          qtdProjectsFinished++;
+        }
+    }
+    
+    Project[] memory _result = new Project[](qtdProjectsFinished);
+    for(uint256 i=0; i < qtdProjectsFinished; i++){
+      _result[i] = _projects[i];
+    }
+
+    return  _result;
   }
   
   /*
-  * Retorna todos os projetos em que o endereco _authority tem papel de authority
+  * Retorna todos os projetos em execucao onde o endereco _proponent tem papel de proponente
   */
-  function getAuthorityOfProjects(address _authority) public view returns(Project[] memory){
-     uint qtdProjects = authorityOf[_authority].length;
-     Project[] memory _projects = new Project[](qtdProjects);
+  function getProponentProjectsInExecution(address _authority) public view returns(Project[] memory){
+    uint qtdProjects = authorityOf[_authority].length;
+    Project[] memory _projects = new Project[](qtdProjects);
      
-     for(uint256 i=0; i < qtdProjects; i++){
+    uint256 qtdProjectsInExecution = 0;
+    for(uint256 i=0; i < qtdProjects; i++){
       uint256 projectID = authorityOf[_authority][i];
-      _projects[i] = projects[projectID];
+      
+        if (projects[projectID].status == Status.in_execution){
+          _projects[qtdProjectsInExecution] = projects[projectID];
+          qtdProjectsInExecution++;
+        }
     }
+    
+    Project[] memory _result = new Project[](qtdProjectsInExecution);
+    for(uint256 i=0; i < qtdProjectsInExecution; i++){
+      _result[i] = _projects[i];
+    }
+
+    return  _result;
+  }
+
+  /*
+  * Retorna todos os projetos finalizados onde o endereco _proponent tem papel de proponente
+  */
+  function getProponentProjectsFinished(address _proponent) public view returns(Project[] memory){
+    uint qtdProjects = proponentOf[_proponent].length;
+    Project[] memory _projects = new Project[](qtdProjects);
      
-    return _projects;
+    uint256 qtdProjectsFinished = 0;
+    for(uint256 i=0; i < qtdProjects; i++){
+      uint256 projectID = proponentOf[_proponent][i];
+      
+        if (projects[projectID].status == Status.finished){
+          _projects[qtdProjectsFinished] = projects[projectID];
+          qtdProjectsFinished++;
+        }
+    }
+    
+    Project[] memory _result = new Project[](qtdProjectsFinished);
+    for(uint256 i=0; i < qtdProjectsFinished; i++){
+      _result[i] = _projects[i];
+    }
+
+    return  _result;
   }
  
   function getContractBalance() public view returns (uint256 ){
