@@ -8,7 +8,6 @@ async function main() {
   await project.deployed();
 
   console.log("BCoinProject deployed to:", project.address);
-  console.log(await project.getContractBalance());
 }
 
 main()
