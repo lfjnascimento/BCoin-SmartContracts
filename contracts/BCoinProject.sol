@@ -44,15 +44,6 @@ contract BCoinProject {
 
   // Mapping ID to projects
   mapping(uint256 => Project) projects;
-  
-  // Mapea endereco para Id dos projetos onde o endereco tem papel de executor
-  mapping(address => uint256[]) public executorOf;
-  
-  // Mapea endereco para Id dos projetos onde o endereco tem papel de autoridade
-  mapping(address => uint256[]) public authorityOf;
-
-// Mapea endereco para Id dos projetos onde o endereco tem papel de autoridade
-  mapping(address => uint256[]) public proponentOf;
 
   modifier onlyProjectAuthority(uint256 _project_ID){
     require(msg.sender == projects[_project_ID].authority, "NOTauthority");
@@ -83,9 +74,6 @@ contract BCoinProject {
     projects[ID].proposal_date = block.timestamp;
     projects[ID].status = Status.created;
     qdtProjectsInCreatedStatus++;
-    
-    authorityOf[_authority].push(ID);
-    proponentOf[msg.sender].push(ID);
   }
 
   /*
@@ -101,8 +89,6 @@ contract BCoinProject {
     projects[_ID].status = Status.in_execution;
     projects[_ID].start_date = block.timestamp;
     qdtProjectsInCreatedStatus--;
-    
-    executorOf[msg.sender].push(_ID);
   }
 
   /*
